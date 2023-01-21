@@ -53,10 +53,10 @@ describe('Testando a rota login', () => {
     expect(login.body).to.have.property('token');
   });
 
-  // it('Não é possivel logar sem email', async () => {
-  //   const login = await chai.request(app).post('/login').send(wrongEmailKeyName)
+  it('Não é possivel logar sem email', async () => {
+    const login = await chai.request(app).post('/login').send(wrongEmailKeyName)
 
-  //   expect(login.status).to.be.equal(400);
-  //   expect(login.body).to.be.deep.equal(wrongEmailKeyNameReturn);
-  // })
+    expect(login.status).to.be.equal(400);
+    expect(login.body).to.be.deep.equal(wrongEmailKeyNameReturn);
+  })
 });

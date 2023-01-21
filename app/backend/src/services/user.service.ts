@@ -33,7 +33,7 @@ export async function findOne(user: IUserLogin): Promise<IUserResultToken | IUse
   delete result.dataValues.id;
   console.log(result.dataValues);
 
-  const token = jwt.sign({ ...result }, secrect, { algorithm: 'HS256', expiresIn: '80min' });
+  const token = jwt.sign({ ...result }, secrect, { algorithm: 'HS256', expiresIn: '7d' });
 
   return { status: 200, message: { token } };
 }
