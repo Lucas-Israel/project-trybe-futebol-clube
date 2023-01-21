@@ -1,15 +1,19 @@
 import bcrypt = require('bcryptjs');
-import { IUserLogin, IUserResult, IUserResultError } from '../interfaces/User.Interfaces';
+import {
+  IUserLogin,
+  IUserResult,
+  IUserResultError,
+  IUserComplete,
+} from '../interfaces/User.Interfaces';
 import UserModel from '../database/models/UserModel';
 
-// export default async function create(user: IUserComplete): Promise<IUserResult> {
-//   const { dataValues } = await UserModel.create({ ...user });
-//   delete dataValues.password;
-//   const send = { status: 201, message: dataValues };
-//   console.log(send);
+export async function create(user: IUserComplete): Promise<IUserResult> {
+  const { dataValues } = await UserModel.create({ ...user });
+  delete dataValues.password;
+  const send = { status: 201, message: dataValues };
 
-//   return send;
-// }
+  return send;
+}
 
 // const content = { username: 'abc', password: 'abc', email: 'abc@def.com', role: 'admin' };
 
@@ -17,7 +21,7 @@ import UserModel from '../database/models/UserModel';
 
 // aaaa();
 
-export default async function findOne(user: IUserLogin): Promise<IUserResult | IUserResultError> {
+export async function findOne(user: IUserLogin): Promise<IUserResult | IUserResultError> {
   const { username, password } = user;
   const result = await UserModel.findOne({ where: { username } });
 
