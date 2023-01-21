@@ -4,7 +4,6 @@ import * as UserService from '../services/user.service';
 export async function findOne(req: Request, res: Response) {
   const { username, password } = req.body;
   const result = await UserService.findOne({ username, password });
-  console.log(result);
 
   res.status(result.status).json(result.message);
 }

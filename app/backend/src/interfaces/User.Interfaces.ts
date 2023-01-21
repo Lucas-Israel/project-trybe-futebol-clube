@@ -27,3 +27,7 @@ export interface IUserResultError {
   status: number
   message: string
 }
+
+export interface IUserDataValues {
+  dataValues: IUserComplete
+}
