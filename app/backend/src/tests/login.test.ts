@@ -14,20 +14,30 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc" // Aqui deve ser o token gerado pelo backend.
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTY3NDMzMTMxNywiZXhwIjoxNjc0OTM2MTE3fQ.CO3m5r-LSGNskGJfctmGQivV70SPPhje-_5EVQNECxE'
 
-const envio = {
-  username: 'Admin',
+const correctLogin = {
+  email: 'admin@admin.com',
   password: 'secret_admin'
 }
 
-const retorno: IUserComplete =
-{
-  id: 1,
-  username: 'Admin',
-  role: 'admin',
-  email: 'admin@admin.com',
-  password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+const dataValues = {
+  dataValues: {
+    id: 1,
+    username: 'Admin',
+    email: 'admin@admin.com',
+    role: 'admin',
+    password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+  }
+}
+
+const wrongEmailKeyName = {
+  emails: 'bbb@bbb.com',
+  password: 'bbbbbbb'
+}
+
+const wrongEmailKeyNameReturn = {
+  message: "All fields must be filled" 
 }
 
 
@@ -35,12 +45,18 @@ describe('Testando a rota login', () => {
   afterEach(sinon.restore);
 
   it('Login feito com sucesso, se passado tudo correto', async () => {
-    sinon.stub(UserModel, 'findOne').resolves({ dataValues: retorno } as any)
-    const login = await chai.request(app).post('/login').send(envio);
-    // console.log('local: login test');
-    // console.log(login.body);
-    
+
+    sinon.stub(UserModel, 'findOne').resolves(dataValues as any)
+    const login = await chai.request(app).post('/login').send(correctLogin);
+
     expect(login.status).to.be.equal(200);
-    expect(login.body).to.be.deep.equal(retorno);
+    expect(login.body).to.have.property('token');
   });
+
+  // it('Não é possivel logar sem email', async () => {
+  //   const login = await chai.request(app).post('/login').send(wrongEmailKeyName)
+
+  //   expect(login.status).to.be.equal(400);
+  //   expect(login.body).to.be.deep.equal(wrongEmailKeyNameReturn);
+  // })
 });

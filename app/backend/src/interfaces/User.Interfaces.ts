@@ -2,14 +2,18 @@ export interface IUserName {
   username: string
 }
 
-export interface IUserLogin extends IUserName {
+export interface IUserEmail {
+  email: string
+}
+
+export interface IUserLogin extends IUserEmail {
   password: string
 }
 
 export interface IUserComplete extends IUserLogin {
   id?: number
   role: string
-  email: string
+  username: string
 }
 
 export interface IUserCompleteNoPassword extends IUserName {
@@ -21,6 +25,11 @@ export interface IUserCompleteNoPassword extends IUserName {
 export interface IUserResult {
   status: number
   message: IUserCompleteNoPassword
+}
+
+export interface IUserResultToken {
+  status: number
+  message: { token: string }
 }
 
 export interface IUserResultError {

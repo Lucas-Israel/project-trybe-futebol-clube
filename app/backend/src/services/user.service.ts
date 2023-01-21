@@ -1,11 +1,16 @@
 import bcrypt = require('bcryptjs');
+import 'dotenv/config';
+import * as jwt from 'jsonwebtoken';
 import {
   IUserLogin,
   IUserResult,
   IUserResultError,
   IUserComplete,
+  IUserResultToken,
 } from '../interfaces/User.Interfaces';
 import UserModel from '../database/models/UserModel';
+
+const secrect = 'jwt_secret';
 
 export async function create(user: IUserComplete): Promise<IUserResult> {
   const { dataValues } = await UserModel.create({ ...user });
@@ -15,26 +20,25 @@ export async function create(user: IUserComplete): Promise<IUserResult> {
   return send;
 }
 
-// const content = { username: 'abc', password: 'abc', email: 'abc@def.com', role: 'admin' };
+export async function findOne(user: IUserLogin): Promise<IUserResultToken | IUserResultError> {
+  const { email, password } = user;
 
-// async function aaaa() { await create(content); }
+  const result = await UserModel.findOne({ where: { email } });
 
-// aaaa();
-
-export async function findOne(user: IUserLogin): Promise<IUserResult | IUserResultError> {
-  const { username, password } = user;
-  const result = await UserModel.findOne({ where: { username } });
-
-  if (result === null) return { status: 404, message: 'Não encontrado' };
+  if (result === null) return { status: 400, message: 'Incorrect email or password' };
 
   const pWCheck = await bcrypt.compare(password, result.dataValues.password);
-  if (pWCheck === false) return { status: 404, message: 'Credenciais invalidas' };
+  if (pWCheck === false) return { status: 400, message: 'Incorrect email or password' };
 
-  delete result.dataValues.password;
-  return { status: 200, message: result.dataValues };
+  delete result.dataValues.id;
+  console.log(result.dataValues);
+
+  const token = jwt.sign({ ...result }, secrect, { algorithm: 'HS256', expiresIn: '80min' });
+
+  return { status: 200, message: { token } };
 }
 
-// const content = { username: 'Admins', password: 'secret_admins' };
+// const content = { email: 'admin@admin.com', password: 'secret_admin' };
 
 // async function aaaa() { console.log(await findOne(content)); }
 
