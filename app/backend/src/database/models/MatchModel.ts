@@ -46,6 +46,11 @@ MatchModel.init({
     allowNull: false,
     field: 'away_team_goals',
   },
+  inProggress: {
+    type: INTEGER,
+    allowNull: false,
+    field: 'in_proggress',
+  },
 }, {
   sequelize: db,
   tableName: 'matches',
