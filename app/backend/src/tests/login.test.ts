@@ -15,7 +15,9 @@ import {
   wrongKeyNameReturn,
   emptyEmail,
   wrongPasswordKeyname,
-  emptyPassword
+  emptyPassword,
+  token,
+  role,
 } from './utils/loginVariables';
 
 chai.use(chaiHttp);
@@ -52,5 +54,12 @@ describe('Testando a rota login', () => {
     const login2 = await chai.request(app).post('/login').send(emptyPassword);
     expect(login2.status).to.be.equal(400);
     expect(login2.body).to.be.deep.equal(wrongKeyNameReturn);
+  })
+
+  it('Na rota login/validate retorna o objeto correto se tiver um token válido', async () => {
+    const login = await chai.request(app).post('/login/validation').send({authorization: { token }});
+
+    expect(login.status).to.be.equal(200);
+    expect(login.body).to.be.deep.equal(role);
   })
 });

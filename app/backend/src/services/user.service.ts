@@ -40,9 +40,3 @@ export async function findOne(user: IUserLogin): Promise<IUserResultToken | IUse
 
   return { status: 200, message: { token } };
 }
-
-// const content = { email: 'admin@admin.com', password: 'secret_admin' };
-
-// async function aaaa() { console.log(await findOne(content)); }
-
-// aaaa();
