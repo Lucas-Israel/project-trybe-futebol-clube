@@ -49,7 +49,7 @@ describe('Testando a rota login', () => {
   it('Não é possivel logar sem senha ou sem o campo de senha correto', async () => {
     const login = await chai.request(app).post('/login').send(wrongPasswordKeyname);
     expect(login.status).to.be.equal(400);
-    expect(login.body).to.be.deep.equal(wrongKeyNameReturn)
+    expect(login.body).to.be.deep.equal(wrongKeyNameReturn);
 
     const login2 = await chai.request(app).post('/login').send(emptyPassword);
     expect(login2.status).to.be.equal(400);
@@ -57,7 +57,8 @@ describe('Testando a rota login', () => {
   })
 
   it('Na rota login/validate retorna o objeto correto se tiver um token válido', async () => {
-    const login = await chai.request(app).post('/login/validation').send({authorization: { token }});
+    const auth = { Authorization: token }
+    const login = await chai.request(app).get('/login/validate').set(auth);
 
     expect(login.status).to.be.equal(200);
     expect(login.body).to.be.deep.equal(role);
