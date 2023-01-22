@@ -25,10 +25,14 @@ export async function findOne(user: IUserLogin): Promise<IUserResultToken | IUse
 
   const result = await UserModel.findOne({ where: { email } });
 
-  if (result === null) return { status: 400, message: 'Incorrect email or password' };
+  const message = {
+    message: 'Incorrect email or password',
+  };
+
+  if (result === null) return { status: 401, message };
 
   const pWCheck = await bcrypt.compare(password, result.dataValues.password);
-  if (pWCheck === false) return { status: 400, message: 'Incorrect email or password' };
+  if (pWCheck === false) return { status: 401, message };
 
   delete result.dataValues.id;
 

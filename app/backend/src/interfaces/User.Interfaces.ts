@@ -29,7 +29,7 @@ export interface IUserResult {
 
 export interface IUserResultToken {
   status: number
-  message: { token: string }
+  message: { token: string } | { message: string }
 }
 
 export interface IUserResultError {
