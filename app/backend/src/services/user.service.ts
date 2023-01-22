@@ -31,7 +31,6 @@ export async function findOne(user: IUserLogin): Promise<IUserResultToken | IUse
   if (pWCheck === false) return { status: 400, message: 'Incorrect email or password' };
 
   delete result.dataValues.id;
-  console.log(result.dataValues);
 
   const token = jwt.sign({ ...result }, secrect, { algorithm: 'HS256', expiresIn: '7d' });
 

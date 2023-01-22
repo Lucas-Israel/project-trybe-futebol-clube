@@ -8,6 +8,7 @@ import UserModel from '../database/models/UserModel';
 
 import { Response } from 'superagent';
 import { IUserComplete } from '../interfaces/User.Interfaces';
+import { Model } from 'sequelize';
 
 chai.use(chaiHttp);
 
@@ -46,7 +47,7 @@ describe('Testando a rota login', () => {
 
   it('Login feito com sucesso, se passado tudo correto', async () => {
 
-    sinon.stub(UserModel, 'findOne').resolves(dataValues as any)
+    sinon.stub(UserModel, 'findOne').resolves(dataValues as Model)
     const login = await chai.request(app).post('/login').send(correctLogin);
 
     expect(login.status).to.be.equal(200);
