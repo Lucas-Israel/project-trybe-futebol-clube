@@ -24,6 +24,7 @@ export default class UserService {
     if (result === null) return { status: 401, message };
 
     const pWCheck = await bcrypt.compare(password, result.dataValues.password);
+
     if (pWCheck === false) return { status: 401, message };
 
     delete result.dataValues.id;
