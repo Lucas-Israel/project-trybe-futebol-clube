@@ -9,7 +9,7 @@ import {
 import UserModel from '../database/models/UserModel';
 import CRUD from '../interfaces/Services.interface';
 
-const secrect = process.env.JWT_SECRET || '';
+const secret = process.env.JWT_SECRET || '';
 
 export default class UserService {
   constructor(private _model: CRUD<UserModel>) {}
@@ -29,7 +29,7 @@ export default class UserService {
     delete result.dataValues.id;
     delete result.dataValues.password;
 
-    const token = jwt.sign({ ...result }, secrect, { algorithm: 'HS256', expiresIn: '7d' });
+    const token = jwt.sign({ ...result }, secret, { algorithm: 'HS256', expiresIn: '7d' });
 
     return { status: 200, message: { token } };
   }

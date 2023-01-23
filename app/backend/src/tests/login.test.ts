@@ -18,6 +18,10 @@ import {
   emptyPassword,
   token,
   role,
+  emptyKeys,
+  wrongPassword,
+  incorrectEmailOrPasswordMessage,
+  inexistentUser,
 } from './utils/loginVariables';
 
 chai.use(chaiHttp);
@@ -36,7 +40,7 @@ describe('Testando a rota login', () => {
     expect(login.body).to.have.property('token');
   });
 
-  it('Não é possivel logar sem email ou sem o campo de email correto', async () => {
+  it('Não é possivel fazer login sem email ou sem o campo de email correto', async () => {
     const login = await chai.request(app).post('/login').send(wrongEmailKeyName);
     expect(login.status).to.be.equal(400);
     expect(login.body).to.be.deep.equal(wrongKeyNameReturn);
@@ -46,7 +50,7 @@ describe('Testando a rota login', () => {
     expect(login2.body).to.be.deep.equal(wrongKeyNameReturn);
   })
 
-  it('Não é possivel logar sem senha ou sem o campo de senha correto', async () => {
+  it('Não é possivel fazer login sem senha ou sem o campo de senha correto', async () => {
     const login = await chai.request(app).post('/login').send(wrongPasswordKeyname);
     expect(login.status).to.be.equal(400);
     expect(login.body).to.be.deep.equal(wrongKeyNameReturn);
@@ -54,6 +58,25 @@ describe('Testando a rota login', () => {
     const login2 = await chai.request(app).post('/login').send(emptyPassword);
     expect(login2.status).to.be.equal(400);
     expect(login2.body).to.be.deep.equal(wrongKeyNameReturn);
+  })
+
+  it('Não é possivel fazer login com nenhum dos campos com caracteres insuficientes', async () => {
+    const login = await chai.request(app).post('/login').send(emptyKeys);
+    expect(login.status).to.be.equal(400);
+    expect(login.body).to.be.deep.equal(wrongKeyNameReturn);
+  })
+
+  it('Não é possivel fazer login com um password inválido', async () => {
+    sinon.stub(UserModel, 'findOne').resolves(null);
+    const login = await chai.request(app).post('/login').send(wrongPassword);
+    expect(login.status).to.be.equal(401);
+    expect(login.body).to.be.deep.equal(incorrectEmailOrPasswordMessage)
+  })
+
+  it('Não encontra o usuario com email não existente', async () => {
+    const login = await chai.request(app).post('/login').send(inexistentUser);
+    expect(login.status).to.be.equal(401);
+    expect(login.body).to.be.deep.equal(incorrectEmailOrPasswordMessage)
   })
 
   it('Na rota login/validate retorna o objeto correto se tiver um token válido', async () => {

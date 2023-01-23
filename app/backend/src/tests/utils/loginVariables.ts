@@ -33,8 +33,27 @@ export const emptyPassword = {
   password: ''
 }
 
+export const emptyKeys = {
+  email: 'admin@admin.com',
+  password: 'sec'
+}
+
+export const wrongPassword = {
+  email: 'admin@admin.com',
+  password: 'aaaaaaaaaaaaaaaaaaaaa'
+}
+
 export const wrongKeyNameReturn = {
   message: "All fields must be filled" 
+}
+
+export const incorrectEmailOrPasswordMessage = {
+  message: 'Incorrect email or password'
+}
+
+export const inexistentUser = {
+  email: 'aaaaaaaaaaa@aaaaaaaaa.com',
+  password: 'aaaaaaaaaaaaaaa'
 }
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhVmFsdWVzIjp7InVzZXJuYW1lIjoiQWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInBhc3N3b3JkIjoiJDJhJDA4JHhpLkh4azFjekFPMG5aUi4uQjM5M3UxMGFFRDBSUTFOM1BBRVhRN0h4dExqS1BFWkJ1LlBXIn0sIl9wcmV2aW91c0RhdGFWYWx1ZXMiOnsiaWQiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInBhc3N3b3JkIjoiJDJhJDA4JHhpLkh4azFjekFPMG5aUi4uQjM5M3UxMGFFRDBSUTFOM1BBRVhRN0h4dExqS1BFWkJ1LlBXIn0sInVuaXFubyI6MSwiX2NoYW5nZWQiOnt9LCJfb3B0aW9ucyI6eyJpc05ld1JlY29yZCI6ZmFsc2UsIl9zY2hlbWEiOm51bGwsIl9zY2hlbWFEZWxpbWl0ZXIiOiIiLCJyYXciOnRydWUsImF0dHJpYnV0ZXMiOlsiaWQiLCJ1c2VybmFtZSIsInJvbGUiLCJlbWFpbCIsInBhc3N3b3JkIl19LCJpc05ld1JlY29yZCI6ZmFsc2UsImlhdCI6MTY3NDQwNDc4MCwiZXhwIjoxNjc1MDA5NTgwfQ.lAK-Ef5i-MZTsVzs6J3dz-s7BmHYhFvTzvADtJNQ2_g'
