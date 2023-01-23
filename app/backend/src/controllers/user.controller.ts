@@ -3,12 +3,14 @@ import 'dotenv/config';
 import * as jwt from 'jsonwebtoken';
 import UserService from '../services/user.service';
 import { IUserDataValues } from '../interfaces/User.Interfaces';
+import UserModel from '../database/models/UserModel';
 
 const secret = process.env.JWT_SECRET || '';
 
 export async function findOne(req: Request, res: Response) {
   const { email, password } = req.body;
-  const result = await UserService.findOne({ email, password });
+  const a = new UserService(UserModel);
+  const result = await a.findOne({ email, password });
 
   res.status(result.status).json(result.message);
 }
