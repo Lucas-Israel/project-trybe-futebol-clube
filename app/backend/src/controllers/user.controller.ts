@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import 'dotenv/config';
 import * as jwt from 'jsonwebtoken';
-import * as UserService from '../services/user.service';
+import UserService from '../services/user.service';
 import { IUserDataValues } from '../interfaces/User.Interfaces';
 
 const secret = process.env.JWT_SECRET || '';
