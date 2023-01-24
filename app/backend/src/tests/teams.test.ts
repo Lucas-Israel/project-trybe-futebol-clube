@@ -7,6 +7,7 @@ import { app } from '../app';
 import TeamModel from '../database/models/TeamModel';
 
 import { Response } from 'superagent';
+import { Model } from 'sequelize';
 // import { Model } from 'sequelize';
 
 chai.use(chaiHttp);
@@ -30,11 +31,10 @@ const teams = [
 
 describe('Testando a rota /teams', () => {
   it('Retorna uma lista dos times, happy case', async () => {
-    sinon.stub(TeamModel, 'findAll').resolves(teams as any)
-
+    sinon.stub(TeamModel, 'findAll').resolves(teams as [])
     const connect = await chai.request(app).get('/teams')
-
+    
     expect(connect.status).to.be.equal(200);
-    expect(connect.body).to.be.deep.equal({message: teams})
+    expect(connect.body).to.be.deep.equal(teams);
   })
 })
