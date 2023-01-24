@@ -8,7 +8,6 @@ import TeamModel from '../database/models/TeamModel';
 
 import { Response } from 'superagent';
 import { Model } from 'sequelize';
-// import { Model } from 'sequelize';
 
 chai.use(chaiHttp);
 
@@ -43,7 +42,7 @@ describe('Testando a rota /teams', () => {
 
   it('Retorna o time correto ao procurar com um ID em /teams/:id', async () => {
     sinon.stub(TeamModel, 'findByPk').resolves(findByPKReturn as any);
-    const connect = await chai.request(app).get('/teams/1');
+    const connect = await chai.request(app).get('/teams/2'); // /teams/2 não é um erro de digitação, é um teste facil pra ver se o stub esta funcionando.
 
     expect(connect.status).to.be.equal(200);
     expect(connect.body).to.be.deep.equal(findByPKReturn)
