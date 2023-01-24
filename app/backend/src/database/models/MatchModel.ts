@@ -49,7 +49,7 @@ MatchModel.init({
   inProggress: {
     type: INTEGER,
     allowNull: false,
-    field: 'in_proggress',
+    field: 'in_progress',
   },
 }, {
   sequelize: db,
