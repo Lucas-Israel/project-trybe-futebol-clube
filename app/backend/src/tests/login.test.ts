@@ -94,5 +94,9 @@ describe('Testando a rota login', () => {
     expect(login.status).to.be.equal(200);
     expect(login.body).to.be.deep.equal(role);
     sinon.restore()
+
+    const login2 = await chai.request(app).get('/login/validate').set({ Authorizations: 'abc'});
+    expect(login2.status).to.be.equal(404)
+    sinon.restore()
   })
 });
