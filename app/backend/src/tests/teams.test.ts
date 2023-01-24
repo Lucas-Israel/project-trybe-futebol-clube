@@ -29,6 +29,8 @@ const teams = [
   },
 ]
 
+const findByPKReturn = {id: 1, teamName: 'Avaí/Kindermann'}
+
 describe('Testando a rota /teams', () => {
   it('Retorna uma lista dos times, happy case', async () => {
     sinon.stub(TeamModel, 'findAll').resolves(teams as [])
@@ -36,5 +38,14 @@ describe('Testando a rota /teams', () => {
     
     expect(connect.status).to.be.equal(200);
     expect(connect.body).to.be.deep.equal(teams);
+    sinon.restore();
+  })
+
+  it('Retorna o time correto ao procurar com um ID em /teams/:id', async () => {
+    sinon.stub(TeamModel, 'findByPk').resolves(findByPKReturn as any);
+    const connect = await chai.request(app).get('/teams/1');
+
+    expect(connect.status).to.be.equal(200);
+    expect(connect.body).to.be.deep.equal(findByPKReturn)
   })
 })
