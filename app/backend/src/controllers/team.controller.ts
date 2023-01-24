@@ -7,4 +7,10 @@ export default class TeamController {
 
     res.status(result.status).json(result.message);
   }
+
+  static async findByPK(req: Request, res: Response) {
+    const { id } = req.params;
+    const result = await TeamService.findByPK(+id);
+    res.status(result.status).json(result.message);
+  }
 }
