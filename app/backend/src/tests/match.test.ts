@@ -23,11 +23,12 @@ describe('Testando a rota /matches', () => {
     sinon.restore();
   })
 
-  it('Retorna uma lista com informações das partidas em andamento ao acessar a rota GET /matches', async () => {
-    // sinon.stub(MatchModel, 'findAllInProgress').resolves(queryReturnInProgress as any);
-    const result = await chai.request(app).get('/matches/matches?inProgress=true');
+  it('Retorna uma lista com informações das partidas em andamento ao acessar a rota GET /matches?inProgress=1', async () => {
+    sinon.stub(MatchModel, 'findAll').resolves(queryReturnInProgress as any);
+    const result = await chai.request(app).get('/matches?inProgress=false');
 
     expect(result.status).to.be.equal(200);
     expect(result.body).to.be.deep.equal(queryReturnInProgress);
+    sinon.restore()
   })
 })

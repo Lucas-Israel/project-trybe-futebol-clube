@@ -5,14 +5,8 @@ export default class MatchService {
   static async findAll() {
     const result = await MatchModel.findAll({
       include: [
-        { model: TeamModel,
-          as: 'homeTeam',
-          attributes: { exclude: ['id'] },
-        },
-        { model: TeamModel,
-          as: 'awayTeam',
-          attributes: { exclude: ['id'] },
-        },
+        { model: TeamModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: TeamModel, as: 'awayTeam', attributes: { exclude: ['id'] } },
       ],
       raw: true,
       nest: true,
@@ -20,6 +14,20 @@ export default class MatchService {
 
     return { status: 200, message: result };
   }
-}
 
-MatchService.findAll();
+  static async findAllInProgress(query: { inProgress: boolean }) {
+    const searchNostring = {
+      where: query,
+      include: [
+        { model: TeamModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: TeamModel, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ],
+      raw: true,
+      nest: true,
+    };
+
+    const result = await MatchModel.findAll(searchNostring);
+
+    return { status: 200, message: result };
+  }
+}
