@@ -10,6 +10,7 @@ import { queryReturn, queryReturnInProgress, createdMatch, token, sendToCreateAM
 import { Response } from 'superagent';
 import { Model } from 'sequelize';
 import createMatchParams from '../interfaces/Services.interface'
+import TeamModel from '../database/models/TeamModel';
 
 chai.use(chaiHttp);
 
@@ -40,6 +41,7 @@ describe('Testando a rota /matches', () => {
 
     expect(result.status).to.be.equal(201);
     expect(result.body).to.be.deep.equal(bodyForCreatedMatch);
+    sinon.restore();
   })
 
   it('É possivel mudar o status inProgress para false pela rota PATCH /matches/:id/finish', async () => {
@@ -48,6 +50,7 @@ describe('Testando a rota /matches', () => {
 
     expect(status).to.be.equal(200);
     expect(body).to.be.deep.equal({ message: 'Finished'});
+    sinon.restore();
   })
 
   it('Não é possivel criar uma partida com um time dos dois lados', async () => {
@@ -58,10 +61,15 @@ describe('Testando a rota /matches', () => {
   })
 
   it('Não é possivel criar uma partida se não existir um time', async () => {
+    const time1 = { id: 1, teamName: 'abc'};
+    const stub = sinon.stub(TeamModel, 'findOne');
+    stub.onCall(0).resolves(null as any);
+    stub.onCall(1).resolves(time1 as any);
     const {status, body} = await chai.request(app).post('/matches').send(invalidTeams);
 
     expect(status).to.be.equal(404);
     expect(body).to.be.deep.equal({message: 'There is no team with such id!'});
+    sinon.restore();
   })
 
   // it('É apenas possivel registrar uma nova partida se o usuario tiver uma token', async () => {

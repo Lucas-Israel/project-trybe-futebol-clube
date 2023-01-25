@@ -15,9 +15,9 @@ export async function teamExistanceCheck(req: Request, res: Response, next: Next
   const listToCheck = [homeTeamId, awayTeamId];
 
   const result = await Promise.all(listToCheck
-    .map((item) => TeamModel.findAll({ where: { id: item }, raw: true })));
+    .map((item) => TeamModel.findOne({ where: { id: item }, raw: true })));
 
-  const conditionToCheck = result[0].length === 0 || result[1].length === 0;
+  const conditionToCheck = result.some((item) => item === null);
 
   if (conditionToCheck) return res.status(404).json({ message: 'There is no team with such id!' });
 
