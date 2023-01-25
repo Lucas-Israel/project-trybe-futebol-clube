@@ -23,3 +23,10 @@ export async function teamExistanceCheck(req: Request, res: Response, next: Next
 
   next();
 }
+
+export async function matchBodyCheck(req: Request, res: Response, next: NextFunction) {
+  const { body } = req;
+  const condition = body.homeTeamId || body.homeTeamGoals || body.awayTeamId || body.awayTeamGoals;
+  if (!condition) return res.status(401).json({ message: 'Missing keys in the body' });
+  next();
+}
