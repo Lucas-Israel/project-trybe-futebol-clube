@@ -6,7 +6,6 @@ export default class MatchController {
     if (req.query.inProgress) {
       const queryValue = req.query.inProgress === 'true';
       const result = await MatchService.findAllInProgress({ inProgress: queryValue });
-      console.log('abc');
       return res.status(result.status).json(result.message);
     }
 

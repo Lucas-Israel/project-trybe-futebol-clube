@@ -60,6 +60,37 @@ export const queryReturnInProgress = [
   }
 ]
 
+export const resultQueryReturnInProgress = [
+  {
+    id: 41,
+    homeTeamId: 16,
+    homeTeamGoals: 2,
+    awayTeamId: 9,
+    awayTeamGoals: 0,
+    inProgress: 1,
+    homeTeam: {
+      teamName: "São Paulo"
+    },
+    awayTeam: {
+      teamName: "Internacional"
+    }
+  },
+  {
+    id: 42,
+    homeTeamId: 6,
+    homeTeamGoals: 1,
+    awayTeamId: 1,
+    awayTeamGoals: 0,
+    inProgress: 1,
+    homeTeam: {
+      teamName: "Ferroviária"
+    },
+    awayTeam: {
+      teamName: "Avaí/Kindermann"
+    }
+  }
+]
+
 export const sendToCreateAMatch = {
   homeTeamId: 9,
   homeTeamGoals: 0,
@@ -68,12 +99,23 @@ export const sendToCreateAMatch = {
 }
 
 export const createdMatch = {
+  dataValues: {
+    id: 49,
+    homeTeamId: 9,
+    homeTeamGoals: 0,
+    awayTeamId: 14,
+    awayTeamGoals: 0,
+    inProgress: true,
+  }
+}
+
+export const bodyForCreatedMatch = {
   id: 49,
   homeTeamId: 9,
   homeTeamGoals: 0,
   awayTeamId: 14,
   awayTeamGoals: 0,
-  inProgress: 1,
+  inProgress: true,
 }
 
 export const token = {

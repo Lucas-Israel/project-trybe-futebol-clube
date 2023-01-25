@@ -42,8 +42,6 @@ export default class MatchService {
       inProgress: 1,
     });
 
-    console.log(dataValues);
-
     return { status: 201, message: dataValues };
   }
 }
