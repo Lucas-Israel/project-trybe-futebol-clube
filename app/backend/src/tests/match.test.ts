@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import MatchModel from '../database/models/MatchModel';
-import { queryReturn, queryReturnInProgress, createdMatch, token, sendToCreateAMatch, resultQueryReturnInProgress, bodyForCreatedMatch } from './utils/matchVariables';
+import { queryReturn, queryReturnInProgress, createdMatch, token, sendToCreateAMatch, resultQueryReturnInProgress, bodyForCreatedMatch, bodyForCreateAMatchWithTheSameTeamEachSide } from './utils/matchVariables';
 
 import { Response } from 'superagent';
 import { Model } from 'sequelize';
@@ -43,10 +43,18 @@ describe('Testando a rota /matches', () => {
   })
 
   it('É possivel mudar o status inProgress para false pela rota PATCH /matches/:id/finish', async () => {
-    const { status, body } = await chai.request(app).patch('/matches/49/finish')
+    sinon.stub(MatchModel, 'update').resolves([0]);
+    const { status, body } = await chai.request(app).patch('/matches/49/finish');
 
     expect(status).to.be.equal(200);
-    expect(body).to.be.deep.equal({ message: 'Finished'})
+    expect(body).to.be.deep.equal({ message: 'Finished'});
+  })
+
+  it('Não é possivel criar uma partida com um time dos dois lados', async () => {
+    const { status, body } = await chai.request(app).post('/matches').send(bodyForCreateAMatchWithTheSameTeamEachSide);
+    
+    expect(status).to.be.equal(422);
+    expect(body).to.be.deep.equal({ message: 'It is not possible to create a match with two equal teams'})
   })
 
   // it('É apenas possivel registrar uma nova partida se o usuario tiver uma token', async () => {
