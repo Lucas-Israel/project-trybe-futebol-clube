@@ -1,3 +1,4 @@
+import { createMatchParams } from '../interfaces/Services.interface';
 import MatchModel from '../database/models/MatchModel';
 import TeamModel from '../database/models/TeamModel';
 
@@ -29,5 +30,20 @@ export default class MatchService {
     const result = await MatchModel.findAll(searchNostring);
 
     return { status: 200, message: result };
+  }
+
+  static async createMatchInProgress(params: createMatchParams) {
+    const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = params;
+    const { dataValues } = await MatchModel.create({
+      homeTeamId,
+      homeTeamGoals,
+      awayTeamId,
+      awayTeamGoals,
+      inProgress: 1,
+    });
+
+    console.log(dataValues);
+
+    return { status: 201, message: dataValues };
   }
 }
