@@ -85,13 +85,17 @@ describe('Testando a rota /matches', () => {
   })
 
   it('É possivel atualizar partidas em andamento', async () => {
+    sinon.stub(TeamModel, 'update').resolves([0])
     const { status, body } = await chai
     .request(app)
-    .patch('/matches/1')
+    .patch('/matches/48')
     .set('Authorization', token.token)
-    .send();
+    .send({
+      "homeTeamGoals": 70,
+      "awayTeamGoals": 90
+    });
 
     expect(status).to.be.equal(200)
-    expect(body).to.be.equal({ message: 'Method runtime complete!'})
+    expect(body).to.be.deep.equal({ message: 'Method runtime complete!'})
   })
 })
