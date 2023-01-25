@@ -59,3 +59,23 @@ export const queryReturnInProgress = [
     }
   }
 ]
+
+export const sendToCreateAMatch = {
+  homeTeamId: 9,
+  homeTeamGoals: 0,
+  awayTeamId: 14,
+  awayTeamGoals: 0,
+}
+
+export const createdMatch = {
+  id: 49,
+  homeTeamId: 9,
+  homeTeamGoals: 0,
+  awayTeamId: 14,
+  awayTeamGoals: 0,
+  inProgress: 1,
+}
+
+export const token = {
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhVmFsdWVzIjp7InVzZXJuYW1lIjoiQWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9LCJfcHJldmlvdXNEYXRhVmFsdWVzIjp7ImlkIjoxLCJ1c2VybmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJwYXNzd29yZCI6IiQyYSQwOCR4aS5IeGsxY3pBTzBuWlIuLkIzOTN1MTBhRUQwUlExTjNQQUVYUTdIeHRMaktQRVpCdS5QVyJ9LCJ1bmlxbm8iOjEsIl9jaGFuZ2VkIjp7fSwiX29wdGlvbnMiOnsiaXNOZXdSZWNvcmQiOmZhbHNlLCJfc2NoZW1hIjpudWxsLCJfc2NoZW1hRGVsaW1pdGVyIjoiIiwicmF3Ijp0cnVlLCJhdHRyaWJ1dGVzIjpbImlkIiwidXNlcm5hbWUiLCJyb2xlIiwiZW1haWwiLCJwYXNzd29yZCJdfSwiaXNOZXdSZWNvcmQiOmZhbHNlLCJpYXQiOjE2NzQ2NzQwMDcsImV4cCI6MTY3NTI3ODgwN30.KBhwcJOMkXIXfUw_hNO5CUuY1ZomUJx5SNL2PueB6LQ"
+}
