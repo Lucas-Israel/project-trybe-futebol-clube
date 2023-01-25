@@ -24,6 +24,6 @@ export default class MatchController {
     const { id } = req.params;
     const { status, message } = await MatchService.finishMatchInProgress(+id);
 
-    res.status(status).json(message);
+    res.status(status).json({ message });
   }
 }
