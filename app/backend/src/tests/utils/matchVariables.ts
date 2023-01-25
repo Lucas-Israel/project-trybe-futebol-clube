@@ -132,6 +132,6 @@ export const bodyForCreateAMatchWithTheSameTeamEachSide = {
 export const invalidTeams = {
   homeTeamId: 99999999,
   homeTeamGoals: 0,
-  awayTeamId: 99999999,
+  awayTeamId: 999999998,
   awayTeamGoals: 0,
 }
