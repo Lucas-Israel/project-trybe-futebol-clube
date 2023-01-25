@@ -8,3 +8,8 @@ export interface createMatchParams {
   homeTeamGoals: number,
   awayTeamGoals: number,
 }
+
+export interface updatingBody {
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}

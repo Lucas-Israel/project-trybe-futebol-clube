@@ -1,4 +1,4 @@
-import { createMatchParams } from '../interfaces/Services.interface';
+import { createMatchParams, updatingBody } from '../interfaces/Services.interface';
 import MatchModel from '../database/models/MatchModel';
 import TeamModel from '../database/models/TeamModel';
 
@@ -49,5 +49,11 @@ export default class MatchService {
     await MatchModel.update({ inProgress: 0 }, { where: { id } });
 
     return { status: 200, message: 'Finished' };
+  }
+
+  static async updateInProgress(id: number, obj: updatingBody) {
+    await MatchModel.update(obj, { where: { id, inProgress: 1 } });
+
+    return { status: 200, message: 'Method runtime complete!' };
   }
 }

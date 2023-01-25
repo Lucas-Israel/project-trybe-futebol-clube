@@ -84,10 +84,14 @@ describe('Testando a rota /matches', () => {
     sinon.restore();
   })
 
-  // it('É apenas possivel registrar uma nova partida se o usuario tiver um token válido', async () => {
-  //   const {status, body} = await chai.request(app).post('/matches').set({Authorization: 'abc' });
+  it('É possivel atualizar partidas em andamento', async () => {
+    const { status, body } = await chai
+    .request(app)
+    .patch('/matches/1')
+    .set('Authorization', token.token)
+    .send();
 
-  //   expect(status).to.be.equal(401);
-  //   expect(body).to.be.deep.equal({message: 'Token must be a valid token'});
-  // })
+    expect(status).to.be.equal(200)
+    expect(body).to.be.equal({ message: 'Method runtime complete!'})
+  })
 })
