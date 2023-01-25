@@ -44,4 +44,10 @@ export default class MatchService {
 
     return { status: 201, message: dataValues };
   }
+
+  static async finishMatchInProgress(id: number) {
+    await MatchModel.update({ inProgress: 0 }, { where: { id } });
+
+    return { status: 200, message: 'Finished' };
+  }
 }
