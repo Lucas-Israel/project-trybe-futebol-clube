@@ -14,4 +14,10 @@ export default class MatchController {
 
     res.status(result.status).json(result.message);
   }
+
+  static async createMatchInProgress(req: Request, res: Response) {
+    const result = await MatchService.createMatchInProgress(req.body);
+
+    res.status(result.status).json(result.message);
+  }
 }
