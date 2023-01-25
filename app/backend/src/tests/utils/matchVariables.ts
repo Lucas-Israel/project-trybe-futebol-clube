@@ -128,3 +128,10 @@ export const bodyForCreateAMatchWithTheSameTeamEachSide = {
   awayTeamId: 9,
   awayTeamGoals: 0,
 }
+
+export const invalidTeams = {
+  homeTeamId: 99999999,
+  homeTeamGoals: 0,
+  awayTeamId: 99999999,
+  awayTeamGoals: 0,
+}

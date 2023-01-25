@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import MatchModel from '../database/models/MatchModel';
-import { queryReturn, queryReturnInProgress, createdMatch, token, sendToCreateAMatch, resultQueryReturnInProgress, bodyForCreatedMatch, bodyForCreateAMatchWithTheSameTeamEachSide } from './utils/matchVariables';
+import { queryReturn, queryReturnInProgress, createdMatch, token, sendToCreateAMatch, resultQueryReturnInProgress, bodyForCreatedMatch, bodyForCreateAMatchWithTheSameTeamEachSide, invalidTeams } from './utils/matchVariables';
 
 import { Response } from 'superagent';
 import { Model } from 'sequelize';
@@ -55,6 +55,13 @@ describe('Testando a rota /matches', () => {
     
     expect(status).to.be.equal(422);
     expect(body).to.be.deep.equal({ message: 'It is not possible to create a match with two equal teams'})
+  })
+
+  it('Não é possivel criar uma partida se não existir um time', async () => {
+    const {status, body} = await chai.request(app).post('/matches').send(invalidTeams);
+
+    expect(status).to.be.equal(404);
+    expect(body).to.be.deep.equal({message: 'There is no team with such id!'});
   })
 
   // it('É apenas possivel registrar uma nova partida se o usuario tiver uma token', async () => {
