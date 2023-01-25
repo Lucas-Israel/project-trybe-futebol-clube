@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import MatchModel from '../database/models/MatchModel';
 import TeamModel from '../database/models/TeamModel';
 
