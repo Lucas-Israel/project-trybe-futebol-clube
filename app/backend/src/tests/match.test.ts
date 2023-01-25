@@ -72,9 +72,10 @@ describe('Testando a rota /matches', () => {
     sinon.restore();
   })
 
-  // it('É apenas possivel registrar uma nova partida se o usuario tiver uma token', async () => {
-  //   const result = await chai.request(app).post('/matches').set({Authorization: token })
+  it('É apenas possivel registrar uma nova partida se o usuario tiver um token válido', async () => {
+    const {status, body} = await chai.request(app).post('/matches').set({Authorization: token });
 
-  //   expect(result.status).to.be.equal(201);
-  // })
+    expect(status).to.be.equal(401);
+    expect(body).to.be.deep.equal({message: 'Token must be a valid token'});
+  })
 })

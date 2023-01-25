@@ -30,7 +30,8 @@ export default class UserService {
     delete result.dataValues.id;
     delete result.dataValues.password;
 
-    const token = jwt.sign({ ...result }, secret, { algorithm: 'HS256', expiresIn: '7d' });
+    const token = jwt
+      .sign({ ...result.dataValues }, secret, { algorithm: 'HS256', expiresIn: '7d' });
 
     return { status: 200, message: { token } };
   }
