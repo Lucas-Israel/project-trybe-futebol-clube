@@ -19,4 +19,11 @@ export default class MatchController {
 
     res.status(result.status).json(result.message);
   }
+
+  static async finishMatchInProgress(req: Request, res: Response) {
+    const { id } = req.params;
+    const { status, message } = await MatchService.finishMatchInProgress(+id);
+
+    res.status(status).json(message);
+  }
 }
