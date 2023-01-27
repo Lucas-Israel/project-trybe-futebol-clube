@@ -13,4 +13,9 @@ export default class TeamController {
     const result = await TeamService.findByPK(+id);
     res.status(result.status).json(result.message);
   }
+
+  static async formedLeaderBoard(req: Request, res: Response) {
+    const { status, message } = await TeamService.formingLeaderBoard();
+    res.status(status).json({ message });
+  }
 }
