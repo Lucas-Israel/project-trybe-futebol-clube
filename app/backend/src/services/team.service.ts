@@ -69,4 +69,4 @@ export default class TeamService {
   }
 }
 
-TeamService.formingLeaderBoard('away');
+TeamService.getLeaderboard('home');
