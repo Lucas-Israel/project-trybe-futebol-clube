@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize';
-import leaderBoardObj, { LeaderBoardReturn } from '../interfaces/leaderBoard.interface';
+import { LeaderBoardReturn } from '../interfaces/leaderBoard.interface';
 import MatchModel from '../database/models/MatchModel';
 import TeamModel from '../database/models/TeamModel';
-import { defeats, goalsDone, goalsReceived, howManyGames,
-  objGeneratorForLeaderBoards, toAdd, victories,
+import { defeats, formingObjForGeneralLeaderboard, goalsDone,
+  goalsReceived, howManyGames, objGeneratorForLeaderBoards, toAdd, toSort, victories,
 } from './utils/leaderboardHelper';
 
 export default class TeamService {
@@ -54,19 +54,26 @@ export default class TeamService {
 
     const returnForLeaderboards = objGeneratorForLeaderBoards(toSend);
 
-    function toSort(list: leaderBoardObj[]) {
-      return list.sort((a: leaderBoardObj, b: leaderBoardObj) => {
-        if (a.totalPoints !== b.totalPoints) return b.totalPoints - a.totalPoints;
-        if (a.goalsBalance !== b.goalsBalance) return b.goalsBalance - a.goalsBalance;
-        if (a.goalsFavor !== b.goalsFavor) return b.goalsFavor - a.goalsFavor;
-        return a.goalsOwn - b.goalsOwn;
-      });
-    }
-
     toSort(returnForLeaderboards);
 
     return { status: 200, message: returnForLeaderboards };
   }
+
+  static async generalLeaderBoard() {
+    const homeBoard = (await TeamService.formingLeaderBoard('home')).message;
+    const awayBoard = (await TeamService.formingLeaderBoard('away')).message;
+
+    const organizer = homeBoard.map((team) => {
+      const awa = awayBoard.find((awayTeam) => awayTeam.name === team.name);
+      return { home: team, away: awa };
+    });
+
+    const finalResult = formingObjForGeneralLeaderboard(organizer);
+
+    toSort(finalResult);
+
+    return { status: 200, message: finalResult };
+  }
 }
 
-TeamService.getLeaderboard('home');
+TeamService.generalLeaderBoard();

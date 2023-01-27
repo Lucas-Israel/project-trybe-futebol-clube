@@ -1,4 +1,4 @@
-import leaderBoardObj, { awayTeamMatches, LeaderBoardReturn, paramForObjGenerator,
+import leaderBoardObj, { awayTeamMatches, LeaderBoardReturn, listGeneralObj, paramForObjGenerator,
   teamMatches } from '../../interfaces/leaderBoard.interface';
 
 export function nameNormalizer(name: string | undefined) {
@@ -137,3 +137,44 @@ export const toAdd = {
     awayTeamGoals: 888888,
   },
 };
+
+export const defaultObj = {
+  totalPoints: 0,
+  totalGames: 0,
+  totalVictories: 0,
+  totalDraws: 0,
+  totalLosses: 0,
+  goalsFavor: 0,
+  goalsOwn: 0,
+  goalsBalance: 0,
+};
+
+export function toSort(list: leaderBoardObj[]) {
+  return list.sort((a: leaderBoardObj, b: leaderBoardObj) => {
+    if (a.totalPoints !== b.totalPoints) return b.totalPoints - a.totalPoints;
+    if (a.goalsBalance !== b.goalsBalance) return b.goalsBalance - a.goalsBalance;
+    if (a.goalsFavor !== b.goalsFavor) return b.goalsFavor - a.goalsFavor;
+    return a.goalsOwn - b.goalsOwn;
+  });
+}
+
+export function formingObjForGeneralLeaderboard(list: listGeneralObj[]) {
+  return list.map(({ home, away = defaultObj }) => {
+    const newObj = { name: home.name,
+      totalPoints: home.totalPoints + away.totalPoints,
+      totalGames: home.totalGames + away.totalGames,
+      totalVictories: home.totalVictories + away.totalVictories,
+      totalDraws: home.totalDraws + away.totalDraws,
+      totalLosses: home.totalLosses + away.totalLosses,
+      goalsFavor: home.goalsFavor + away.goalsFavor,
+      goalsOwn: home.goalsOwn + away.goalsOwn,
+      goalsBalance: home.goalsBalance + away.goalsBalance,
+      efficiency: calculateEfficiency(
+        home.totalVictories + away.totalVictories,
+        home.totalGames + away.totalGames,
+        home.totalDraws + away.totalDraws,
+      ),
+    };
+    return newObj;
+  });
+}

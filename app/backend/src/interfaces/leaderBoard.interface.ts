@@ -33,3 +33,8 @@ export interface paramForObjGenerator {
   goalsDonee: teamsValuesSumIntoObj,
   hOa: 'home' | 'away'
 }
+
+export interface listGeneralObj {
+  home: leaderBoardObj,
+  away: leaderBoardObj | undefined,
+}
