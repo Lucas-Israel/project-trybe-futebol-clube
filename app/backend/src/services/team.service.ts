@@ -61,6 +61,7 @@ export default class TeamService {
 
   static async generalLeaderBoard() {
     const homeBoard = (await TeamService.formingLeaderBoard('home')).message;
+
     const awayBoard = (await TeamService.formingLeaderBoard('away')).message;
 
     const organizer = homeBoard.map((team) => {
@@ -75,5 +76,3 @@ export default class TeamService {
     return { status: 200, message: finalResult };
   }
 }
-
-TeamService.generalLeaderBoard();
