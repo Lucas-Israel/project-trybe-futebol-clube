@@ -153,8 +153,9 @@ export function toSort(list: leaderBoardObj[]) {
   return list.sort((a: leaderBoardObj, b: leaderBoardObj) => {
     if (a.totalPoints !== b.totalPoints) return b.totalPoints - a.totalPoints;
     if (a.goalsBalance !== b.goalsBalance) return b.goalsBalance - a.goalsBalance;
-    if (a.goalsFavor !== b.goalsFavor) return b.goalsFavor - a.goalsFavor;
-    return a.goalsOwn - b.goalsOwn;
+    return b.goalsFavor - a.goalsFavor;
+    // if (a.goalsFavor !== b.goalsFavor) return b.goalsFavor - a.goalsFavor;
+    // return b.goalsOwn - a.goalsOwn;
   });
 }
 
