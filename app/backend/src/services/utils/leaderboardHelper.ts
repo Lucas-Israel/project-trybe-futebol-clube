@@ -1,4 +1,5 @@
-import { LeaderBoardReturn, paramForObjGenerator } from '../../interfaces/leaderBoard.interface';
+import leaderBoardObj, { LeaderBoardReturn, paramForObjGenerator,
+  teamMatches } from '../../interfaces/leaderBoard.interface';
 
 export function nameNormalizer(name: string) {
   const lower = name.toLocaleLowerCase();
@@ -51,7 +52,7 @@ export function victories(param: LeaderBoardReturn[]) {
   return teamVictories;
 }
 
-export function howManyGames(param: LeaderBoardReturn[]) {
+export function howManyGames(param: LeaderBoardReturn[]): teamMatches[] {
   let count = 0;
   let oldName = '';
   const list: { matches: number, homeTeam: string }[] = [];
@@ -63,7 +64,6 @@ export function howManyGames(param: LeaderBoardReturn[]) {
     }
     count += 1;
   });
-
   list.splice(0, 1);
   return list;
 }
@@ -105,7 +105,7 @@ export function calculateEfficiency(victory: number, matches: number, draw: numb
   return ((points * 100) / (matches * 3)).toFixed(2);
 }
 
-export function objGeneratorForLeaderBoards(param: paramForObjGenerator) {
+export function objGeneratorForLeaderBoards(param: paramForObjGenerator): leaderBoardObj[] {
   const { goalsDonee, goalsReceivedd, totalDefeats, totalMatches, totalVictories } = param;
   return totalMatches.map((item) => {
     const teamNameKey = nameNormalizer(item.homeTeam);
@@ -116,7 +116,7 @@ export function objGeneratorForLeaderBoards(param: paramForObjGenerator) {
       totalPoints: findVic * 3 + item.matches - (findVic + findDef),
       totalGames: item.matches,
       totalVictories: findVic,
-      totalDraw: item.matches - (findVic + findDef),
+      totalDraws: item.matches - (findVic + findDef),
       totalLosses: totalDefeats[teamNameKey],
       goalsFavor: goalsDonee[teamNameKey],
       goalsOwn: goalsReceivedd[teamNameKey],
@@ -125,3 +125,14 @@ export function objGeneratorForLeaderBoards(param: paramForObjGenerator) {
     };
   });
 }
+
+export const toAdd = {
+  teamName: 'aaaaaaaaaaaaaa',
+  matchModel: {
+    id: 999999,
+    hometeamId: 9999999,
+    homeTeamGoals: 99999999,
+    awayTeamId: 888888,
+    awayTeamGoals: 888888,
+  },
+};

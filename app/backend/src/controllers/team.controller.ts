@@ -16,6 +16,6 @@ export default class TeamController {
 
   static async formedLeaderBoard(req: Request, res: Response) {
     const { status, message } = await TeamService.formingLeaderBoard();
-    res.status(status).json({ message });
+    res.status(status).json(message);
   }
 }
