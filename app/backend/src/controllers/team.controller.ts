@@ -15,7 +15,9 @@ export default class TeamController {
   }
 
   static async formedLeaderBoard(req: Request, res: Response) {
-    const { status, message } = await TeamService.formingLeaderBoard();
+    const { path } = req;
+    const condition = path === '/away' ? 'away' : 'home';
+    const { status, message } = await TeamService.formingLeaderBoard(condition);
     res.status(status).json(message);
   }
 }

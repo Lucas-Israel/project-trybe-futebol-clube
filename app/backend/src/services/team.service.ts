@@ -19,7 +19,7 @@ export default class TeamService {
     return { status: 200, message: result };
   }
 
-  static async getLeaderboard() {
+  static async getLeaderboard(param: 'home' | 'away') {
     const result = await TeamModel.findAll({
       raw: true,
       nest: true,
@@ -29,7 +29,7 @@ export default class TeamService {
         on: Sequelize.where(
           Sequelize.col('TeamModel.id'),
           '=',
-          Sequelize.col('matchModel.home_team_id'),
+          Sequelize.col(`matchModel.${param}_team_id`),
         ),
         where: { inProgress: false },
         attributes: { exclude: ['inProgress'] },
@@ -42,15 +42,15 @@ export default class TeamService {
     return result as unknown as LeaderBoardReturn[];
   }
 
-  static async formingLeaderBoard() {
-    const homeTeams = await TeamService.getLeaderboard();
-    const totalMatches = howManyGames(homeTeams);
-    const totalVictories = victories(homeTeams);
-    const totalDefeats = defeats(homeTeams);
-    const goalsReceivedd = goalsReceived(homeTeams);
-    const goalsDonee = goalsDone(homeTeams);
+  static async formingLeaderBoard(hOa: 'home' | 'away') {
+    const homeTeams = await TeamService.getLeaderboard(hOa);
+    const totalMatches = howManyGames(homeTeams, hOa);
+    const totalVictories = victories(homeTeams, hOa);
+    const totalDefeats = defeats(homeTeams, hOa);
+    const goalsReceivedd = goalsReceived(homeTeams, hOa);
+    const goalsDonee = goalsDone(homeTeams, hOa);
 
-    const toSend = { totalMatches, totalVictories, totalDefeats, goalsReceivedd, goalsDonee };
+    const toSend = { totalMatches, totalVictories, totalDefeats, goalsReceivedd, goalsDonee, hOa };
 
     const returnForLeaderboards = objGeneratorForLeaderBoards(toSend);
 
@@ -69,4 +69,4 @@ export default class TeamService {
   }
 }
 
-TeamService.formingLeaderBoard();
+TeamService.formingLeaderBoard('away');

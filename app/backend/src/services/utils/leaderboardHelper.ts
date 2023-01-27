@@ -1,8 +1,9 @@
-import leaderBoardObj, { LeaderBoardReturn, paramForObjGenerator,
+import leaderBoardObj, { awayTeamMatches, LeaderBoardReturn, paramForObjGenerator,
   teamMatches } from '../../interfaces/leaderBoard.interface';
 
-export function nameNormalizer(name: string) {
-  const lower = name.toLocaleLowerCase();
+export function nameNormalizer(name: string | undefined) {
+  const namee = name || 'ABC';
+  const lower = namee.toLocaleLowerCase();
   const removeSpace = lower.replace(' ', '');
   const removeSlash = removeSpace.replace('/', '');
   const removeDash = removeSlash.replace('-', '');
@@ -10,13 +11,13 @@ export function nameNormalizer(name: string) {
   return normalized;
 }
 
-export function defeats(param: LeaderBoardReturn[]) {
+export function defeats(param: LeaderBoardReturn[], homeOrAway: 'home' | 'away') {
   const list: { defeat: number, teamName: string }[] = [];
   param.forEach(({ teamName, matchModel: { homeTeamGoals, awayTeamGoals } }) => {
+    const condition = homeOrAway === 'home'
+      ? homeTeamGoals < awayTeamGoals : awayTeamGoals < homeTeamGoals;
     let defeat = 0;
-    if (homeTeamGoals < awayTeamGoals) {
-      defeat += 1;
-    }
+    if (condition) { defeat += 1; }
     list.push({ defeat, teamName });
   });
   const teamDefeats: { [key: string]: number } = {};
@@ -31,13 +32,13 @@ export function defeats(param: LeaderBoardReturn[]) {
   return teamDefeats;
 }
 
-export function victories(param: LeaderBoardReturn[]) {
+export function victories(param: LeaderBoardReturn[], homeOrAway: 'home' | 'away') {
   const list: { victory: number, teamName: string }[] = [];
   param.forEach(({ teamName, matchModel: { homeTeamGoals, awayTeamGoals } }) => {
+    const condition = homeOrAway === 'home'
+      ? homeTeamGoals > awayTeamGoals : awayTeamGoals > homeTeamGoals;
     let victory = 0;
-    if (homeTeamGoals > awayTeamGoals) {
-      victory += 1;
-    }
+    if (condition) { victory += 1; }
     list.push({ victory, teamName });
   });
   const teamVictories: { [key: string]: number } = {};
@@ -52,50 +53,50 @@ export function victories(param: LeaderBoardReturn[]) {
   return teamVictories;
 }
 
-export function howManyGames(param: LeaderBoardReturn[]): teamMatches[] {
+export function howManyGames(
+  param: LeaderBoardReturn[],
+  homeOrAway: 'home' | 'away',
+): (teamMatches | awayTeamMatches)[] {
   let count = 0;
   let oldName = '';
-  const list: { matches: number, homeTeam: string }[] = [];
+  const list: { [key: string]: string | number }[] = [];
   param.forEach((item) => {
     if (item.teamName !== oldName) {
-      list.push({ matches: count, homeTeam: oldName });
+      list.push({ matches: count, [`${homeOrAway}Team`]: oldName });
       count = 0;
       oldName = item.teamName;
     }
     count += 1;
   });
   list.splice(0, 1);
-  return list;
+
+  return list as unknown as (teamMatches | awayTeamMatches)[];
 }
 
-export function goalsReceived(list: LeaderBoardReturn[]) {
-  const listWithMatchInfo = list
-    .map(({ teamName, matchModel: { awayTeamGoals } }) => ({ teamName, awayTeamGoals }));
+export function goalsReceived(list: LeaderBoardReturn[], homeOrAway: 'home' | 'away') {
+  const condition = homeOrAway === 'home' ? 'awayTeamGoals' : 'homeTeamGoals';
 
   const goalsTaken: { [key: string]: number } = {};
 
-  listWithMatchInfo.forEach((game) => {
-    const { teamName, awayTeamGoals } = game;
-    const smallName = nameNormalizer(teamName);
-    if (nameNormalizer(teamName) in goalsTaken) {
-      goalsTaken[smallName] += awayTeamGoals;
-    } else { goalsTaken[smallName] = awayTeamGoals; }
+  list.forEach((game) => {
+    const smallName = nameNormalizer(game.teamName);
+    if (nameNormalizer(game.teamName) in goalsTaken) {
+      goalsTaken[smallName] += game.matchModel[condition];
+    } else { goalsTaken[smallName] = game.matchModel[condition]; }
   });
   return goalsTaken;
 }
 
-export function goalsDone(list: LeaderBoardReturn[]) {
-  const listWithMatchInfo = list
-    .map(({ teamName, matchModel: { homeTeamGoals } }) => ({ teamName, homeTeamGoals }));
+export function goalsDone(list: LeaderBoardReturn[], homeOrAway: 'home' | 'away') {
+  const condition = homeOrAway === 'home' ? 'homeTeamGoals' : 'awayTeamGoals';
 
   const goalsDonee: { [key: string]: number } = {};
 
-  listWithMatchInfo.forEach((game) => {
-    const { teamName, homeTeamGoals } = game;
-    const smallName = nameNormalizer(teamName);
-    if (nameNormalizer(teamName) in goalsDonee) {
-      goalsDonee[smallName] += homeTeamGoals;
-    } else { goalsDonee[smallName] = homeTeamGoals; }
+  list.forEach((game) => {
+    const smallName = nameNormalizer(game.teamName);
+    if (nameNormalizer(game.teamName) in goalsDonee) {
+      goalsDonee[smallName] += game.matchModel[condition];
+    } else { goalsDonee[smallName] = game.matchModel[condition]; }
   });
   return goalsDonee;
 }
@@ -106,13 +107,13 @@ export function calculateEfficiency(victory: number, matches: number, draw: numb
 }
 
 export function objGeneratorForLeaderBoards(param: paramForObjGenerator): leaderBoardObj[] {
-  const { goalsDonee, goalsReceivedd, totalDefeats, totalMatches, totalVictories } = param;
+  const { goalsDonee, goalsReceivedd, totalDefeats, totalMatches, totalVictories, hOa } = param;
   return totalMatches.map((item) => {
-    const teamNameKey = nameNormalizer(item.homeTeam);
+    const teamNameKey = nameNormalizer(hOa === 'home' ? item.homeTeam : item.awayTeam);
     const findVic = totalVictories[teamNameKey];
     const findDef = totalDefeats[teamNameKey];
     return {
-      name: item.homeTeam,
+      name: hOa === 'home' ? item.homeTeam : item.awayTeam,
       totalPoints: findVic * 3 + item.matches - (findVic + findDef),
       totalGames: item.matches,
       totalVictories: findVic,
