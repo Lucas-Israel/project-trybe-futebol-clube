@@ -56,7 +56,7 @@ export const inexistentUser = {
   password: 'aaaaaaaaaaaaaaa'
 }
 
-export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE2NzQ2ODY5MzAsImV4cCI6MTY3NTI5MTczMH0.M1xdHx2HloXfXeunZCt0eQa1TJgfuxWwArldqP6JLXQ'
+export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE2NzkzNDU0MjIsImV4cCI6MTY3OTk1MDIyMn0.QmsAb1G7V1egSUHmWOXfDY1pc5q9-Q4t765dxSInmq0'
 
 export const role = {
   role: 'admin'

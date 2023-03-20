@@ -16,7 +16,6 @@ import {
   emptyEmail,
   wrongPasswordKeyname,
   emptyPassword,
-  token,
   role,
   emptyKeys,
   wrongPassword,
@@ -88,6 +87,8 @@ describe('Testando a rota login', () => {
   })
 
   it('Na rota login/validate retorna o objeto correto se tiver um token válido', async () => {
+    const { body: { token } } = await chai.request(app).post('/login').send(correctLogin);
+    
     const auth = { Authorization: token }
     const login = await chai.request(app).get('/login/validate').set(auth);
 
