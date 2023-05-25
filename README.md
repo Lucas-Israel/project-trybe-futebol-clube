@@ -12,7 +12,7 @@
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-# :open_book: Objetivo do projeto <nome do projeto>
+# :open_book: Objetivo do projeto trybe futebol clube
 
 <details>
   <summary>:speech_balloon: Objetivos</summary>
